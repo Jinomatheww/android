@@ -1,0 +1,83 @@
+activitymain.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="536dp">
+
+        <Button
+            android:id="@+id/increment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="@string/increment" />
+
+        <Button
+            android:id="@+id/decrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:text="@string/decrement" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="@string/_0"
+            android:textSize="60sp" />
+    </GridLayout>
+
+
+</RelativeLayout>
+
+
+mainactivity.kt
+
+package com.example.counter
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import android.widget.*
+class MainActivity : AppCompatActivity() {
+    private var counter = 0
+
+    @SuppressLint("SetTextI18n")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+        val counterTextView: TextView = findViewById(R.id.count)
+        val incrementButton: Button = findViewById(R.id.increment)
+        val decrementButton: Button = findViewById(R.id.decrement)
+
+        incrementButton.setOnClickListener {
+            counter++
+            counterTextView.text = counter.toString()
+        }
+
+        decrementButton.setOnClickListener {
+            counter--
+            counterTextView.text = counter.toString()
+        }
+    }
+}
