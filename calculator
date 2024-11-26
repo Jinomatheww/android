@@ -1,0 +1,137 @@
+activitymain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6C1CF"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/first_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+
+        android:hint="first_Number"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="57dp" />
+
+    <EditText
+        android:id="@+id/second_number"
+        android:layout_width="361dp"
+        android:layout_height="160dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+
+        android:ems="10"
+        android:hint="second_Number"
+        android:paddingTop="65dp"
+        android:paddingBottom="40dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="152dp" />
+
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="166dp">
+
+        <Button
+            android:id="@+id/add"
+            android:text="+" />
+
+
+        <Button
+            android:id="@+id/sub"
+            android:text="-"
+            tools:layout_column="1" />
+
+        <Button
+            android:id="@+id/mul"
+            android:text="*"
+            tools:layout_column="2" />
+
+        <Button
+            android:id="@+id/div"
+            android:text="/" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/Result"
+        android:layout_width="match_parent"
+        android:layout_height="412dp"
+        android:paddingTop="250dp"
+        android:paddingBottom="38dp"
+        android:text="result: "
+        android:textSize="48sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
+
+
+mainactivity.kt
+
+
+package com.example.calculator
+
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        val firstNumberEditText: EditText = findViewById(R.id.first_number)
+        val secondNumberEditText: EditText = findViewById(R.id.second_number)
+        val resultTextTextView: TextView = findViewById(R.id.Result)
+
+
+        findViewById<Button>(R.id.add).setOnClickListener {
+            calculate(firstNumberEditText, secondNumberEditText, resultTextTextView, "+")
+        }
+        findViewById<Button>(R.id.sub).setOnClickListener {
+            calculate(firstNumberEditText, secondNumberEditText, resultTextTextView, "-")
+        }
+        findViewById<Button>(R.id.mul).setOnClickListener {
+            calculate(firstNumberEditText, secondNumberEditText, resultTextTextView, "*")
+        }
+        findViewById<Button>(R.id.div).setOnClickListener {
+            calculate(firstNumberEditText, secondNumberEditText, resultTextTextView, "/")
+        }
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun calculate(first: EditText, second: EditText, result: TextView, operation: String) {
+        val num1 = first.text.toString().toDoubleOrNull()
+        val num2 = second.text.toString().toDoubleOrNull()
+
+        if (num1 == null || num2 == null) {
+            result.text = "Invalid input"
+            return
+        }
+
+        result.text = when (operation) {
+            "+" -> "Result: ${num1 + num2}"
+            "-" -> "Result: ${num1 - num2}"
+            "*" -> "Result: ${num1 * num2}"
+            "/" -> if (num2 != 0.0) "Result: ${num1 / num2}" else "Cannot divide by zero"
+            else -> "Invalid operation"
+        }
+    }
+}
